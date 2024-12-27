@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+  </head>
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    "
+  >
+    <div
+      style="
+        width: 400px;
+        margin: 100px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      "
+    >
+      <h1 style="text-align: center">Sign Up</h1>
+      <form
+        style="padding: 20px"
+        id="registrationForm"
+        action="/submit"
+        method="POST"
+      >
+        <label for="name" style="display: block; margin-bottom: 5px"
+          >Name:</label
+        >
+        <input
+          type="text"
+          id="name"
+          name="name"
+          style="
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          "
+        />
+        <span
+          id="nameError"
+          class="error"
+          style="color: red; font-size: 12px"
+        ></span>
+
+        <label for="email" style="display: block; margin-bottom: 5px"
+          >Email:</label
+        >
+        <input
+          type="email"
+          id="email"
+          name="email"
+          style="
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          "
+        />
+        <span
+          id="emailError"
+          class="error"
+          style="color: red; font-size: 12px"
+        ></span>
+
+        <label for="password" style="display: block; margin-bottom: 5px"
+          >Password:</label
+        >
+        <input
+          type="password"
+          id="password"
+          name="password"
+          style="
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          "
+        />
+        <span
+          id="passwordError"
+          class="error"
+          style="color: red; font-size: 12px"
+        ></span>
+
+        <label for="confirmPassword" style="display: block; margin-bottom: 5px"
+          >Confirm Password:</label
+        >
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          style="
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          "
+        />
+        <span
+          id="confirmPasswordError"
+          class="error"
+          style="color: red; font-size: 12px"
+        ></span>
+
+        <input
+          type="submit"
+          value="Submit"
+          style="
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          "
+        />
+      </form>
+    </div>
+
+    <script>
+      // Inline JavaScript for client-side validation
+      document
+        .getElementById("registrationForm")
+        .addEventListener("submit", function (event) {
+          let valid = true;
+
+          // Reset error messages
+          document.getElementById("nameError").textContent = "";
+          document.getElementById("emailError").textContent = "";
+          document.getElementById("passwordError").textContent = "";
+          document.getElementById("confirmPasswordError").textContent = "";
+
+          // Validate Name (must not be empty)
+          const name = document.getElementById("name").value;
+          if (name === "") {
+            document.getElementById("nameError").textContent =
+              "Name is required.";
+            valid = false;
+          }
+
+          // Validate Email (basic email pattern)
+          const email = document.getElementById("email").value;
+          const emailPattern =
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+          if (!emailPattern.test(email)) {
+            document.getElementById("emailError").textContent =
+              "Enter a valid email address.";
+            valid = false;
+          }
+
+          // Validate Password (must have at least 6 characters)
+          const password = document.getElementById("password").value;
+          if (password.length < 6) {
+            document.getElementById("passwordError").textContent =
+              "Password must be at least 6 characters.";
+            valid = false;
+          }
+
+          // Validate Confirm Password (must match password)
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+          if (confirmPassword !== password) {
+            document.getElementById("confirmPasswordError").textContent =
+              "Passwords do not match.";
+            valid = false;
+          }
+
+          // If form is not valid, prevent submission
+          if (!valid) {
+            event.preventDefault();
+          }
+        });
+    </script>
+  </body>
+</html>
