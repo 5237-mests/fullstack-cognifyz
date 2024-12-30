@@ -1,0 +1,58 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Header Section */
+.header {
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Form Section */
+.form-section {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Features Section */
+.features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 20px;
+  gap: 20px;
+}
+
+.feature-card {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 30%;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #f1f1f1;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .feature-card {
+    width: 100%;
+  }
+}

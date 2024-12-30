@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
 // Route to handle form submissions
 app.post("/submit", (req, res) => {
   const { name, email, password, confirmPassword } = req.body;
+  console.log("api");
 
   // Server-side validation
   let errors = {};
@@ -33,7 +34,10 @@ app.post("/submit", (req, res) => {
     errors.confirmPassword = "Passwords do not match.";
 
   if (Object.keys(errors).length > 0) {
-    return res.render("error", { errors });
+    console.log("Validation Errors:", errors);
+    const errorsArray = Object.values(errors);
+    return res.render("error", { errors: errorsArray });
+    // return res.render("error", { errors });
   }
 
   // If no errors, store data temporarily
