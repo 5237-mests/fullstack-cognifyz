@@ -34,13 +34,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to fetch and display users
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/users");
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:3000/api/users", {
+        method: "GET", // Explicitly defining the method
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Moved inside headers
+        },
+      });
       const users = await response.json();
       userList.innerHTML = ""; // Clear previous content
       users.forEach((user) => {
         const userDiv = document.createElement("div");
         userDiv.className = "card mb-3 p-3";
-        userDiv.innerHTML = `<h5>${user.name}</h5><p>${user.email}</p><p>ID: ${user.id}</p>`;
+        userDiv.innerHTML = `<h5>${user.name}</h5><p>${user.email}</p><p>ID: ${user._id}</p>`;
         userList.appendChild(userDiv);
       });
     } catch (error) {
@@ -51,8 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to create a new user
   createUserForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const name = document.getElementById("create-name").value.trim();
-    const email = document.getElementById("create-email").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
     clearError(createUserForm);
 
@@ -70,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch("http://localhost:3000/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify({ name, email, password }),
       });
       if (response.ok) {
         alert("User created successfully!");
@@ -93,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     clearError(updateUserForm);
 
-    if (!id || isNaN(id)) {
+    if (!id) {
       showError(updateUserForm, "Valid User ID is required.");
       return;
     }
@@ -133,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     clearError(deleteUserForm);
 
-    if (!id || isNaN(id)) {
+    if (!id) {
       showError(deleteUserForm, "Valid User ID is required.");
       return;
     }
