@@ -6,7 +6,7 @@ const router = express.Router();
 
 // @route   POST /api/users
 // @desc    Create a new user (Signup)
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -25,23 +25,23 @@ router.post("/", async (req, res) => {
       email: newUser.email,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    next(error);
   }
 });
 
 // Get all User
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/", authMiddleware, async (req, res, next) => {
   try {
     const users = await User.find();
     res.json(users);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 });
 
 // @route   GET /api/users/:id
 // @desc    Get a user by ID
-router.get("/:id", authMiddleware, async (req, res) => {
+router.get("/:id", authMiddleware, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).select("-password"); // Exclude password
 
@@ -51,13 +51,13 @@ router.get("/:id", authMiddleware, async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 });
 
 // @route   PUT /api/users/:id
 // @desc    Update a user by ID
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
 
@@ -72,13 +72,13 @@ router.put("/:id", authMiddleware, async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 });
 
 // @route   DELETE /api/users/:id
 // @desc    Delete a user by ID
-router.delete("/:id", authMiddleware, async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res, next) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
 
@@ -87,7 +87,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     }
     res.json({ message: "User deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 });
 

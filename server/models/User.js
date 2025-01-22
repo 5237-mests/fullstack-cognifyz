@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 const UserSchema = new mongoose.Schema(
   {
+    googleId: { type: String, unique: true },
     name: {
       type: String,
       required: [true, "Name is required"],
@@ -13,9 +14,9 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"],
     },
+    photo: String,
     password: {
       type: String,
-      required: [true, "Password is required"],
       minlength: 6,
     },
   },

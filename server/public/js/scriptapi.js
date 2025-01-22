@@ -147,8 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch(`http://localhost:3000/api/users/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Moved inside headers
+        },
       });
       if (response.ok) {
         alert("User deleted successfully!");

@@ -2,12 +2,47 @@ import express from "express";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import useAuth from "./routes/auth.js";
+import session from "express-session";
+import passport from "./routes/passportConfig.js";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
+import dotenv from "dotenv";
 
 const app = express();
 const PORT = 3000;
 
+app.use(cors());
+
+dotenv.config();
+
 // Connect to MongoDB
 connectDB();
+
+// Apply rate limit
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true, // Return rate limit info in headers
+  legacyHeaders: false, // Disable legacy `X-RateLimit-*` headers
+});
+
+// Apply rate limiting to all routes
+app.use(limiter);
+
+// Configure express-session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }, // Set to true in production (HTTPS required)
+  })
+);
+
+// USE PASSWORD
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware to parse JSON data
 app.use(express.json());
@@ -64,6 +99,24 @@ app.post("/submit", (req, res) => {
 
   // Send a success message
   res.render("thankyou", { name, email });
+});
+
+// Global Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});
+
+// 404 error
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found.",
+  });
 });
 
 // Start the server
