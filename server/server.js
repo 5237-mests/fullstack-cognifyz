@@ -6,10 +6,14 @@ import session from "express-session";
 import passport from "./routes/passportConfig.js";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import morgan from "morgan";
 import dotenv from "dotenv";
 
 const app = express();
 const PORT = 3000;
+
+// Middleware for Logging requests
+app.use(morgan("dev"));
 
 app.use(cors());
 
@@ -40,7 +44,7 @@ app.use(
   })
 );
 
-// USE PASSWORD
+// Use passport
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -103,8 +107,6 @@ app.post("/submit", (req, res) => {
 
 // Global Error handling
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-
   res.status(err.status || 500).json({
     success: false,
     message: err.message || "Internal Server Error",

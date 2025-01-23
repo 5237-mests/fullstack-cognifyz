@@ -78,7 +78,7 @@ router.get(
     const token = jwt.sign({ userId: req.user._id }, JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.redirect(`/dashboard.html?token=${token}`); // Send token to frontend
+    res.redirect(`/?token=${token}`); // Send token to frontend
   }
 );
 

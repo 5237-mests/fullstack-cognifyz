@@ -5,10 +5,7 @@ window.onload = function () {
 
   if (token) {
     localStorage.setItem("token", token); // Store token in localStorage
-    console.log("Token stored:", token);
     // You can also remove the token from the URL to clean it up
-    window.history.replaceState({}, document.title, "/dashboard.html");
-  } else {
-    window.location.href = "/login.html";
+    window.location.href = "/";
   }
 };

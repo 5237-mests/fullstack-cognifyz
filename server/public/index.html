@@ -15,72 +15,84 @@
     <!-- Header Section -->
     <header class="header">
       <h1>Welcome to My Responsive Webpage</h1>
-      <h1><a href="/login.html">Login</a></h1>
+      <h1 id="login-button">
+        <a href="/login.html" class="btn btn-primary">Login</a>
+      </h1>
+      <h1 id="logoutBtn" class="btn btn-danger">Logout</h1>
     </header>
 
-    <section>
-      <div class="container mt-5">
-        <h1>Users</h1>
+    <section class="container">
+      <div class="row">
+        <div class="col-9 m-auto">
+          <h1>Users</h1>
 
-        <!-- User List -->
-        <div id="user-list" class="mt-3"></div>
-        <button class="btn btn-primary mt-3" id="load-users">Load Users</button>
+          <!-- User List -->
+          <div id="user-list" class="mt-3"></div>
+          <button class="btn btn-primary mt-3" id="load-users">
+            Load Users
+          </button>
 
-        <!-- Create User Form -->
-        <h2 class="mt-5">Add User</h2>
-        <form id="create-user-form" class="mt-3">
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" class="form-control" required />
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" class="form-control" required />
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              id="password"
-              class="form-control"
-              required
-            />
-          </div>
-          <button type="submit" class="btn btn-success">Add User</button>
-        </form>
+          <!-- Create User Form -->
+          <h2 class="mt-5">Add User</h2>
+          <form id="create-user-form" class="mt-3">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" id="name" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-success">Add User</button>
+          </form>
 
-        <!-- Update User Form -->
-        <h2 class="mt-5">Update User</h2>
-        <form id="update-user-form" class="mt-3">
-          <div class="mb-3">
-            <label for="update-id" class="form-label">User ID</label>
-            <input type="text" id="update-id" class="form-control" required />
-          </div>
-          <div class="mb-3">
-            <label for="update-name" class="form-label">Name</label>
-            <input type="text" id="update-name" class="form-control" required />
-          </div>
-          <div class="mb-3">
-            <label for="update-email" class="form-label">Email</label>
-            <input
-              type="email"
-              id="update-email"
-              class="form-control"
-              required
-            />
-          </div>
-          <button type="submit" class="btn btn-warning">Update User</button>
-        </form>
+          <!-- Update User Form -->
+          <h2 class="mt-5">Update User</h2>
+          <form id="update-user-form" class="mt-3">
+            <div class="mb-3">
+              <label for="update-id" class="form-label">User ID</label>
+              <input type="text" id="update-id" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label for="update-name" class="form-label">Name</label>
+              <input
+                type="text"
+                id="update-name"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="update-email" class="form-label">Email</label>
+              <input
+                type="email"
+                id="update-email"
+                class="form-control"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-warning">Update User</button>
+          </form>
 
-        <!-- Delete User Form -->
-        <h2 class="mt-5">Delete User</h2>
-        <form id="delete-user-form" class="mt-3">
-          <div class="mb-3">
-            <label for="delete-id" class="form-label">User ID</label>
-            <input type="text" id="delete-id" class="form-control" required />
-          </div>
-          <button type="submit" class="btn btn-danger">Delete User</button>
-        </form>
+          <!-- Delete User Form -->
+          <h2 class="mt-5">Delete User</h2>
+          <form id="delete-user-form" class="mt-3">
+            <div class="mb-3">
+              <label for="delete-id" class="form-label">User ID</label>
+              <input type="text" id="delete-id" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-danger">Delete User</button>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -111,5 +123,22 @@
     <!-- Custom JavaScript -->
     <script src="/js/script.js"></script>
     <script src="/js/scriptapi.js"></script>
+    <script src="./js/dashboard.js"></script>
+
+    <script>
+      const token = localStorage.getItem("token");
+      if (token) {
+        console.log("token found");
+        document.getElementById("login-button").classList.add("d-none");
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+          localStorage.removeItem("token");
+          window.location.href = "/login.html";
+        });
+      } else {
+        console.log("not token");
+        document.getElementById("logoutBtn").classList.add("d-none");
+      }
+    </script>
   </body>
 </html>
