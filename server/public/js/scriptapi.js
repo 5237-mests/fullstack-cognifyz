@@ -51,7 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
         userList.appendChild(userDiv);
       });
     } catch (error) {
-      console.error("Error fetching users:", error);
+      userList.innerHTML = "";
+      // create error message span
+      const errorSpan = document.createElement("span");
+      errorSpan.className = "text-danger";
+      errorSpan.textContent = `Failed to fetch users.`;
+      userList.appendChild(errorSpan);
     }
   };
 
@@ -88,7 +93,12 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Failed to create user.");
       }
     } catch (error) {
-      console.error("Error creating user:", error);
+      // create error span
+      const errorSpan = document.createElement("span");
+      errorSpan.className = "text-danger";
+      errorSpan.textContent = `Failed to create user.`;
+
+      createUserForm.appendChild(errorSpan);
     }
   });
 
